@@ -6,12 +6,11 @@
     "@babel/runtime": "^7.9.6",
     "axios": "^0.19.2",
     "express": "^4.17.1",
-    "regenerator-runtime": "^0.13.5",
-    "request": "^2.88.2"
+    "regenerator-runtime": "^0.13.5"
   },
   "scripts": {
     "start": "nodemon index.js",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",

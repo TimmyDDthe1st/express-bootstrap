@@ -1,0 +1,19 @@
+h1 {
+  color: brown;
+  text-align: center;
+}
+
+h3 {
+  padding: 10px;
+}
+
+p {
+  padding-top: 15px;
+  text-align: center;
+}
+
+div {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}

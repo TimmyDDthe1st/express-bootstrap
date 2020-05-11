@@ -6,13 +6,12 @@ const nock = require('nock');
 const app = require('../src/app');
 
 describe('Jokes API', () => {
-  it('GET / should respond with Welcome to my jokes API!', done => {
-    const WELCOME_MESSAGE = 'Welcome to my jokes API!';
+  it('should return html for my webpage', done => {
     request(app)
       .get('/')
       .then(res => {
         expect(res.statusCode).toEqual(200);
-        expect(res.body.message).toEqual(WELCOME_MESSAGE);
+        expect(res.text).toContain('Express Chuck Norris jokes');
         done();
       });
   });
@@ -137,7 +136,7 @@ describe('GET /jokes/random/personal', () => {
       .reply(200, mockResponse);
 
     request(app)
-      .get('/joke/personal/manchester/codes')
+      .get('/jokes/personal/manchester/codes')
       .then(res => {
         expect(res.statusCode).toEqual(200);
         expect(res.body.personalJoke).toEqual(mockResponse.value);
@@ -151,7 +150,7 @@ describe('GET /jokes/random/personal', () => {
       .replyWithError({ statusCode: 500, message: 'huge error' });
 
     request(app)
-      .get('/joke/personal/manchester/codes')
+      .get('/jokes/personal/manchester/codes')
       .then(res => {
         expect(res.statusCode).toEqual(500);
         expect(res.body.error).toEqual('huge error');

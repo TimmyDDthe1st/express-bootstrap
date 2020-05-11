@@ -1,24 +1,17 @@
-import regeneratorRuntime from 'regenerator-runtime';
+// eslint-disable-next-line no-unused-vars
+const regeneratorRuntime = require('regenerator-runtime');
 
-const request = require('request');
 const axios = require('axios');
 
-exports.main = (req, res) => {
-  res.send({
-    message: 'Welcome to my jokes API!',
-  });
-};
-
 exports.allJokes = (req, res) => {
-  request('https://api.icndb.com/jokes', (error, jokesApiResponse) => {
-    if (error) {
-      return res.status(error.statusCode).send({ error: error.message });
-    }
-
-    const parsedResponse = JSON.parse(jokesApiResponse.body);
-
-    res.send({ jokes: parsedResponse });
-  });
+  axios
+    .get('https://api.icndb.com/jokes')
+    .then(response => {
+      res.send({ jokes: response.data });
+    })
+    .catch(error => {
+      res.status(error.statusCode).send({ error: error.message });
+    });
 };
 
 exports.randomJoke = (req, res) => {
@@ -35,13 +28,14 @@ exports.randomJoke = (req, res) => {
 exports.personalJoke = async (req, res) => {
   const { first, last } = req.params;
 
-  try {
-    const response = await axios.get(
+  axios
+    .get(
       `https://api.icndb.com/jokes/random?firstName=${first}&lastName=${last}&exclude=[explicit]`,
-    );
-
-    return res.send({ personalJoke: response.data.value });
-  } catch (error) {
-    res.status(error.statusCode).send({ error: error.message });
-  }
+    )
+    .then(response => {
+      res.send({ personalJoke: response.data.value });
+    })
+    .catch(error => {
+      res.status(error.statusCode).send({ error: error.message });
+    });
 };
